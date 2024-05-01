@@ -2,12 +2,12 @@
 
 import 'package:hive/hive.dart';
 import 'package:waiter_pda/models/item_types.dart';
-import 'package:waiter_pda/models/menu_mixin.dart';
+import 'package:waiter_pda/models/price_helper.dart';
 
 part 'menu_item.g.dart';
 
 @HiveType(typeId: 3)
-final class MenuItem extends HiveObject with MenuMixin {
+final class MenuItem extends HiveObject {
   @HiveField(0)
   final String name;
 
@@ -31,7 +31,7 @@ final class MenuItem extends HiveObject with MenuMixin {
     return _ingredients == null ? '' : '\nIngredients: ${_ingredients!}';
   }
 
-  String get priceAsEuro => 'Price: ${toStringEuro(price)}';
+  String get priceAsEuro => 'Price: ${toEuroString(price)}';
 
   bool equals(MenuItem other) {
     return this.name == other.name && this.price == other.price;

@@ -18,9 +18,11 @@ class _QuantityAdjustmentBoxState extends State<QuantityAdjustmentBox> {
   }
 
   void _decrementQuantity() {
-    setState(() {
-      --widget.orderItem.quantity;
-    });
+    if (widget.orderItem.quantity > 1) {
+      setState(() {
+        --widget.orderItem.quantity;
+      });
+    }
   }
 
   @override

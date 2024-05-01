@@ -114,8 +114,10 @@ class MilkAdapter extends TypeAdapter<Milk> {
         return Milk.canned;
       case 2:
         return Milk.almond;
+      case 3:
+        return Milk.none;
       default:
-        return Milk.fresh;
+        return Milk.none;
     }
   }
 
@@ -130,6 +132,9 @@ class MilkAdapter extends TypeAdapter<Milk> {
         break;
       case Milk.almond:
         writer.writeByte(2);
+        break;
+      case Milk.none:
+        writer.writeByte(3);
         break;
     }
   }

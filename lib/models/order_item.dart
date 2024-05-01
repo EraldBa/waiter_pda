@@ -1,13 +1,14 @@
 // ignore_for_file: unnecessary_this
 
 import 'package:hive/hive.dart';
+import 'package:waiter_pda/models/item_types.dart';
 import 'package:waiter_pda/models/menu_item.dart';
-import 'package:waiter_pda/models/menu_mixin.dart';
+import 'package:waiter_pda/models/price_helper.dart';
 
 part 'order_item.g.dart';
 
 @HiveType(typeId: 2)
-class OrderItem extends HiveObject with MenuMixin {
+class OrderItem extends HiveObject {
   @HiveField(0)
   final MenuItem menuItem;
 
@@ -33,13 +34,13 @@ class OrderItem extends HiveObject with MenuMixin {
 
   double get price => menuItem.price * quantity;
 
-  String get priceAsEuro => 'Price: ${toStringEuro(price)}';
+  String get priceAsEuro => 'Price: ${toEuroString(price)}';
 
   String get milkAsString => 'Add milk: ${milk?.name ?? '-'}';
 
   String get sweetnessAsString => 'Sweetness: ${sweetness?.name ?? '-'}';
 
-  bool get isCoffee => sweetness != null || milk != null;
+  bool get isCoffee => menuItem.itemType == ItemTypes.coffee;
 
   set values(OrderItem other) {
     this.quantity = other.quantity;
@@ -54,6 +55,12 @@ class OrderItem extends HiveObject with MenuMixin {
         this.milk == other.milk &&
         this.sweetness == other.sweetness;
   }
+}
+
+class CoffeeItem extends OrderItem {
+  final int high;
+
+  CoffeeItem({required super.menuItem, required this.high});
 }
 
 @HiveType(typeId: 4)
@@ -84,7 +91,10 @@ enum Milk {
   canned('Canned'),
 
   @HiveField(2)
-  almond('Almond');
+  almond('Almond'),
+
+  @HiveField(3)
+  none('None');
 
   final String name;
 

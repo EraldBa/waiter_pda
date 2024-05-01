@@ -1,11 +1,11 @@
 import 'package:hive/hive.dart';
-import 'package:waiter_pda/models/menu_mixin.dart';
 import 'package:waiter_pda/models/order_item.dart';
+import 'package:waiter_pda/models/price_helper.dart';
 
 part 'order.g.dart';
 
 @HiveType(typeId: 1)
-class Order extends HiveObject with MenuMixin {
+class Order extends HiveObject {
   @HiveField(0)
   final List<OrderItem> items;
 
@@ -33,7 +33,7 @@ class Order extends HiveObject with MenuMixin {
 
   bool get notCompleted => !completed;
 
-  String get totalAsEuro => toStringEuro(total);
+  String get totalAsEuro => toEuroString(total);
 
   void mergeItems() {
     for (int i = 0; i < items.length; ++i) {

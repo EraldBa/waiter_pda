@@ -16,8 +16,6 @@ class _OrderOptionsDialogState extends State<OrderOptionsDialog> {
 
   late final OrderItem _orderItem;
 
-  bool _showCoffeeOptions = false;
-
   @override
   void initState() {
     super.initState();
@@ -26,7 +24,7 @@ class _OrderOptionsDialogState extends State<OrderOptionsDialog> {
   }
 
   Iterable<Widget> get _coffeeOptions {
-    if (!_showCoffeeOptions) {
+    if (!_orderItem.isCoffee) {
       return const Iterable.empty();
     }
 
@@ -106,28 +104,7 @@ class _OrderOptionsDialogState extends State<OrderOptionsDialog> {
                 onChanged: (value) => _orderItem.comments = value,
               ),
               const SizedBox(height: _height),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  QuantityAdjustmentBox(orderItem: _orderItem),
-                  Switch(
-                    thumbIcon:
-                        MaterialStateProperty.resolveWith<Icon?>((states) {
-                      if (states.contains(MaterialState.selected)) {
-                        return const Icon(Icons.check);
-                      }
-
-                      return null;
-                    }),
-                    value: _showCoffeeOptions,
-                    onChanged: (value) {
-                      setState(() {
-                        _showCoffeeOptions = value;
-                      });
-                    },
-                  ),
-                ],
-              ),
+              QuantityAdjustmentBox(orderItem: _orderItem),
               const SizedBox(height: _height),
               ..._coffeeOptions,
             ],
