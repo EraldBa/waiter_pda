@@ -5,6 +5,11 @@ import 'package:waiter_pda/models/order.dart';
 import 'package:waiter_pda/models/order_item.dart';
 
 final class HiveHelper {
+  static late final Box<MenuItem> menuItemBox;
+  static late final Box<Order> orderBox;
+
+  HiveHelper._internal();
+
   static Future<void> initHive() async {
     await Hive.initFlutter();
 
@@ -15,29 +20,28 @@ final class HiveHelper {
     Hive.registerAdapter(SweetnessAdapter());
     Hive.registerAdapter(ItemTypesAdapter());
 
-    await Hive.openBox('orders');
-    await Hive.openBox('menuItems');
+    orderBox = await Hive.openBox('orders');
+    menuItemBox = await Hive.openBox('menuItems');
   }
 
   static List<MenuItem> get menuItems {
-    return Hive.box('menuItems').values.cast<MenuItem>().toList();
+    return menuItemBox.values.cast<MenuItem>().toList();
   }
 
   static List<Order> get orders {
-    return Hive.box('orders').values.cast<Order>().toList();
+    return orderBox.values.cast<Order>().toList();
   }
 
   static Future<void> addMenuItem(MenuItem item) async {
-    await Hive.box('menuItems').add(item);
+    await menuItemBox.add(item);
   }
 
   static Future<void> addOrder(Order order) async {
-    await Hive.box('orders').add(order);
+    await orderBox.add(order);
   }
 
   static bool tableExistsInPending(String table) {
-    return Hive.box('orders')
-        .values
+    return orderBox.values
         .cast<Order>()
         .any((order) => order.notCompleted && order.tableName == table);
   }
