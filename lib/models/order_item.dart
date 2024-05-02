@@ -42,7 +42,7 @@ class OrderItem extends HiveObject {
 
   bool get isCoffee => menuItem.itemType == ItemTypes.coffee;
 
-  set values(OrderItem other) {
+  void setValuesFrom(OrderItem other) {
     this.quantity = other.quantity;
     this.comments = other.comments;
     this.milk = other.milk;

@@ -20,7 +20,7 @@ class _OrderOptionsDialogState extends State<OrderOptionsDialog> {
   void initState() {
     super.initState();
     _orderItem = OrderItem(menuItem: widget.orderItem.menuItem)
-      ..values = widget.orderItem;
+      ..setValuesFrom(widget.orderItem);
   }
 
   Iterable<Widget> get _coffeeOptions {
@@ -79,7 +79,7 @@ class _OrderOptionsDialogState extends State<OrderOptionsDialog> {
   }
 
   void _done() {
-    widget.orderItem.values = _orderItem;
+    widget.orderItem.setValuesFrom(_orderItem);
 
     Navigator.of(context).pop(true);
   }
