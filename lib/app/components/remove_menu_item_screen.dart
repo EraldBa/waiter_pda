@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waiter_pda/services/hive_helper.dart';
+import 'package:waiter_pda/services/show.dart' as show;
 
 class RemoveMenuItemScreen extends StatefulWidget {
   const RemoveMenuItemScreen({super.key});
@@ -34,8 +35,17 @@ class _RemoveMenuItemScreenState extends State<RemoveMenuItemScreen> {
               trailing: IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () {
-                  setState(() {
-                    menuItem.delete();
+                  show
+                      .alertDialog(context,
+                          title: 'Conmfirmation needed',
+                          message:
+                              'Are you sure you want to delete item "${menuItem.name}" from the database?')
+                      .then((confirmed) {
+                    if (confirmed) {
+                      setState(() {
+                        menuItem.delete();
+                      });
+                    }
                   });
                 },
               ),

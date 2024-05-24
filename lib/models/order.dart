@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:waiter_pda/models/order_item.dart';
-import 'package:waiter_pda/models/price_helper.dart';
+import 'package:waiter_pda/models/price_helper.dart' as price_helper;
 
 part 'order.g.dart';
 
@@ -15,11 +15,20 @@ class Order extends HiveObject {
   @HiveField(2)
   bool completed;
 
+  @HiveField(3)
+  late final DateTime _dateCreated;
+
+  @HiveField(4)
+  late DateTime _dateModified;
+
   Order({
     required this.items,
     this.tableName = '',
     this.completed = false,
-  });
+    DateTime? dateCreated,
+    DateTime? dateModified,
+  })  : _dateCreated = dateCreated ?? DateTime.now(),
+        _dateModified = dateModified ?? DateTime.now();
 
   double get total {
     double sum = 0;
@@ -33,7 +42,10 @@ class Order extends HiveObject {
 
   bool get notCompleted => !completed;
 
-  String get totalAsEuro => toEuroString(total);
+  String get totalAsEuro => price_helper.toEuroFormat(total);
+
+  DateTime get dateCreated => _dateCreated;
+  DateTime get dateModified => _dateModified;
 
   void mergeItems() {
     for (int i = 0; i < items.length; ++i) {
@@ -53,6 +65,9 @@ class Order extends HiveObject {
   @override
   Future<void> save() async {
     mergeItems();
+
+    _dateModified = DateTime.now();
+
     super.save();
   }
 }

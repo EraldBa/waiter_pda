@@ -20,19 +20,25 @@ class OrderAdapter extends TypeAdapter<Order> {
       items: (fields[0] as List).cast<OrderItem>(),
       tableName: fields[1] as String,
       completed: fields[2] as bool,
+      dateCreated: fields[3] as DateTime,
+      dateModified: fields[4] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, Order obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.items)
       ..writeByte(1)
       ..write(obj.tableName)
       ..writeByte(2)
-      ..write(obj.completed);
+      ..write(obj.completed)
+      ..writeByte(3)
+      ..write(obj._dateCreated)
+      ..writeByte(4)
+      ..write(obj._dateModified);
   }
 
   @override

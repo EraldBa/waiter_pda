@@ -20,7 +20,6 @@ class MenuItemAdapter extends TypeAdapter<MenuItem> {
       name: fields[0] as String,
       price: fields[1] as double,
       itemType: fields[2] as ItemTypes,
-      ingredients: fields[3] as String?,
     );
   }
 

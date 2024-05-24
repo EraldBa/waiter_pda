@@ -68,7 +68,7 @@ class SweetnessAdapter extends TypeAdapter<Sweetness> {
       case 3:
         return Sweetness.none;
       default:
-        return Sweetness.sweet;
+        return Sweetness.none;
     }
   }
 

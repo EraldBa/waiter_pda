@@ -1,1 +1,1 @@
-String toEuroString(double value) => '${value.toStringAsFixed(2)} €';
+String toEuroFormat(double value) => '${value.toStringAsFixed(2)} €';

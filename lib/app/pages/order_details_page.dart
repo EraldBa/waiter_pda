@@ -35,11 +35,21 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
   bool _isVisible = true;
 
   void _removeItem(OrderItem item) {
-    setState(() {
-      widget.order.items.remove(item);
+    show
+        .alertDialog(
+      context,
+      title: 'Confirmation',
+      message: 'Do you wish to remove item "${item.menuItem.name}" from order?',
+    )
+        .then((confirmed) {
+      if (confirmed) {
+        setState(() {
+          widget.order.items.remove(item);
 
-      if (widget.ordersAreSaved) {
-        widget.order.save();
+          if (widget.ordersAreSaved) {
+            widget.order.save();
+          }
+        });
       }
     });
   }
@@ -131,7 +141,9 @@ ${item.priceAsEuro}
 ${item.sweetnessAsString}
 ${item.milkAsString}
 ${item.comments}'''
-                    : 'Quantity: ${item.quantity}\n${item.priceAsEuro}${item.comments}',
+                        .trim()
+                    : 'Quantity: ${item.quantity}\n${item.priceAsEuro}\n${item.comments}'
+                        .trim(),
               ),
               isThreeLine: true,
               trailing: Row(

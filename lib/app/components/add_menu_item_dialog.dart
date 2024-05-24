@@ -99,8 +99,8 @@ class _AddMenuItemDialogState extends State<AddMenuItemDialog> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Icon(value.icon),
                                     Text(value.name),
+                                    Icon(value.icon),
                                   ],
                                 ),
                               );

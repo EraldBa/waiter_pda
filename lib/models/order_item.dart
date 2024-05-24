@@ -3,7 +3,7 @@
 import 'package:hive/hive.dart';
 import 'package:waiter_pda/models/item_types.dart';
 import 'package:waiter_pda/models/menu_item.dart';
-import 'package:waiter_pda/models/price_helper.dart';
+import 'package:waiter_pda/models/price_helper.dart' as price_helper;
 
 part 'order_item.g.dart';
 
@@ -34,9 +34,9 @@ class OrderItem extends HiveObject {
 
   double get price => menuItem.price * quantity;
 
-  String get priceAsEuro => 'Price: ${toEuroString(price)}';
+  String get priceAsEuro => 'Price: ${price_helper.toEuroFormat(price)}';
 
-  String get milkAsString => 'Add milk: ${milk?.name ?? '-'}';
+  String get milkAsString => 'Milk: ${milk?.name ?? '-'}';
 
   String get sweetnessAsString => 'Sweetness: ${sweetness?.name ?? '-'}';
 
