@@ -57,12 +57,6 @@ class OrderItem extends HiveObject {
   }
 }
 
-class CoffeeItem extends OrderItem {
-  final int high;
-
-  CoffeeItem({required super.menuItem, required this.high});
-}
-
 @HiveType(typeId: 4)
 enum Sweetness {
   @HiveField(0)
