@@ -3,7 +3,7 @@ import 'package:waiter_pda/app/widgets/quantity_adjustment_box.dart';
 import 'package:waiter_pda/models/menu_item.dart';
 import 'package:waiter_pda/models/order.dart';
 import 'package:waiter_pda/models/order_item.dart';
-import 'package:waiter_pda/services/show.dart' as show;
+import 'package:waiter_pda/helpers/show.dart' as show;
 
 class OrderAddTile extends StatefulWidget {
   final MenuItem menuItem;

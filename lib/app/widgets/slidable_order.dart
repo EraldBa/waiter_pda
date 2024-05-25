@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:waiter_pda/app/pages/order_details_page.dart';
+import 'package:waiter_pda/helpers/hive_helper.dart';
+import 'package:waiter_pda/helpers/show.dart' as show;
 import 'package:waiter_pda/models/order.dart';
-import 'package:waiter_pda/services/hive_helper.dart';
-import 'package:waiter_pda/services/show.dart' as show;
 
 class SlidableOrder extends StatelessWidget {
   final Order order;
@@ -45,7 +45,7 @@ class SlidableOrder extends StatelessWidget {
       direction: DismissDirection.horizontal,
       background: Container(
         alignment: Alignment.centerLeft,
-        color: Colors.white,
+        color: Colors.red,
         child: const Padding(
           padding: EdgeInsets.only(left: 20.0),
           child: Icon(
@@ -60,7 +60,7 @@ class SlidableOrder extends StatelessWidget {
               color: Colors.green,
               child: const Padding(
                 padding: EdgeInsets.only(right: 20.0),
-                child: Icon(Icons.refresh),
+                child: Icon(Icons.restore_from_trash),
               ),
             )
           : Container(
@@ -90,14 +90,15 @@ class SlidableOrder extends StatelessWidget {
         trailing: order.completed ? const Icon(Icons.check) : null,
         title: Text('Table: ${order.tableName}'),
         subtitle: Text('Total: ${order.totalAsEuro}'),
-        onTap: () {
-          if (order.completed) {
-            return;
-          }
-
-          Navigator.of(context).push(
-            OrderDetailsPage.customRoute(context, order: order),
-          );
+        onTap: order.notCompleted
+            ? () {
+                Navigator.of(context).push(
+                  OrderDetailsPage.customRoute(context, order: order),
+                );
+              }
+            : null,
+        onLongPress: () {
+          show.orderInfo(context, order);
         },
       ),
     );

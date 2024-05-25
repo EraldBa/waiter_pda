@@ -7,8 +7,8 @@ import 'package:waiter_pda/extensions/string_extension.dart';
 import 'package:waiter_pda/models/item_types.dart';
 import 'package:waiter_pda/models/menu_item.dart';
 import 'package:waiter_pda/models/order.dart';
-import 'package:waiter_pda/services/hive_helper.dart';
-import 'package:waiter_pda/services/show.dart' as show;
+import 'package:waiter_pda/helpers/hive_helper.dart';
+import 'package:waiter_pda/helpers/show.dart' as show;
 
 class NewOrderPage extends StatefulWidget {
   static const route = '/user-page';

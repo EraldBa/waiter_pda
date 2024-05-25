@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:waiter_pda/app/pages/new_order_page.dart';
+import 'package:waiter_pda/helpers/hive_helper.dart';
+import 'package:waiter_pda/helpers/show.dart' as show;
 import 'package:waiter_pda/models/order.dart';
 import 'package:waiter_pda/models/order_item.dart';
-import 'package:waiter_pda/services/hive_helper.dart';
-import 'package:waiter_pda/services/show.dart' as show;
 
 class OrderDetailsPage extends StatefulWidget {
   final Order order;
@@ -84,6 +84,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
   @override
   void initState() {
     super.initState();
+
     _scrollController.addListener(() {
       final direction = _scrollController.position.userScrollDirection;
 
@@ -108,18 +109,24 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          children: [
-            const Text('Order details for table: '),
-            TextFormField(
-              initialValue: widget.order.tableName,
-              onFieldSubmitted: _submitTable,
-              textAlign: TextAlign.center,
-              decoration: const InputDecoration(
-                constraints: BoxConstraints.expand(width: 50.0, height: 30.0),
+        title: FittedBox(
+          child: Row(
+            children: [
+              const Text('Order details for table: '),
+              TextFormField(
+                initialValue: widget.order.tableName,
+                onFieldSubmitted: _submitTable,
+                textAlign: TextAlign.center,
+                decoration: const InputDecoration(
+                  constraints: BoxConstraints.expand(width: 50.0, height: 30.0),
+                ),
               ),
-            )
-          ],
+              IconButton(
+                onPressed: () => show.orderInfo(context, widget.order),
+                icon: const Icon(Icons.info),
+              ),
+            ],
+          ),
         ),
       ),
       body: ListView.builder(

@@ -20,8 +20,8 @@ class OrderAdapter extends TypeAdapter<Order> {
       items: (fields[0] as List).cast<OrderItem>(),
       tableName: fields[1] as String,
       completed: fields[2] as bool,
-      dateCreated: fields[3] as DateTime,
-      dateModified: fields[4] as DateTime,
+      createdAt: fields[3] as DateTime,
+      updatedAt: fields[4] as DateTime,
     );
   }
 
@@ -36,9 +36,9 @@ class OrderAdapter extends TypeAdapter<Order> {
       ..writeByte(2)
       ..write(obj.completed)
       ..writeByte(3)
-      ..write(obj._dateCreated)
+      ..write(obj._createdAt)
       ..writeByte(4)
-      ..write(obj._dateModified);
+      ..write(obj._updatedAt);
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:waiter_pda/services/hive_helper.dart';
-import 'package:waiter_pda/services/show.dart' as show;
+import 'package:waiter_pda/helpers/hive_helper.dart';
+import 'package:waiter_pda/helpers/show.dart' as show;
 
 class RemoveMenuItemScreen extends StatefulWidget {
   const RemoveMenuItemScreen({super.key});

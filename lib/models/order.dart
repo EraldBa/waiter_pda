@@ -16,19 +16,19 @@ class Order extends HiveObject {
   bool completed;
 
   @HiveField(3)
-  late final DateTime _dateCreated;
+  late final DateTime _createdAt;
 
   @HiveField(4)
-  late DateTime _dateModified;
+  late DateTime _updatedAt;
 
   Order({
     required this.items,
     this.tableName = '',
     this.completed = false,
-    DateTime? dateCreated,
-    DateTime? dateModified,
-  })  : _dateCreated = dateCreated ?? DateTime.now(),
-        _dateModified = dateModified ?? DateTime.now();
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  })  : _createdAt = createdAt ?? DateTime.now(),
+        _updatedAt = updatedAt ?? DateTime.now();
 
   double get total {
     double sum = 0;
@@ -40,12 +40,22 @@ class Order extends HiveObject {
     return sum;
   }
 
+  int get quantityOfItems {
+    int quantity = 0;
+
+    for (final item in items) {
+      quantity += item.quantity;
+    }
+
+    return quantity;
+  }
+
   bool get notCompleted => !completed;
 
   String get totalAsEuro => price_helper.toEuroFormat(total);
 
-  DateTime get dateCreated => _dateCreated;
-  DateTime get dateModified => _dateModified;
+  DateTime get createdAt => _createdAt;
+  DateTime get updatedAt => _updatedAt;
 
   void mergeItems() {
     for (int i = 0; i < items.length; ++i) {
@@ -66,7 +76,7 @@ class Order extends HiveObject {
   Future<void> save() async {
     mergeItems();
 
-    _dateModified = DateTime.now();
+    _updatedAt = DateTime.now();
 
     super.save();
   }

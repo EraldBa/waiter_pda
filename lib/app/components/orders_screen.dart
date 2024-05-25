@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:waiter_pda/app/pages/new_order_page.dart';
 import 'package:waiter_pda/app/widgets/slidable_order.dart';
 import 'package:waiter_pda/models/order.dart';
-import 'package:waiter_pda/services/hive_helper.dart';
+import 'package:waiter_pda/helpers/hive_helper.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});

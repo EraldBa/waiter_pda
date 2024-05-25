@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:waiter_pda/models/item_types.dart';
 import 'package:waiter_pda/models/menu_item.dart';
-import 'package:waiter_pda/services/hive_helper.dart';
+import 'package:waiter_pda/helpers/hive_helper.dart';
 
 class AddMenuItemDialog extends StatefulWidget {
   const AddMenuItemDialog({super.key});

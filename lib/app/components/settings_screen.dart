@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:waiter_pda/app/components/add_menu_item_dialog.dart';
 import 'package:waiter_pda/app/components/remove_menu_item_screen.dart';
 import 'package:waiter_pda/models/order.dart';
-import 'package:waiter_pda/services/show.dart' as show;
+import 'package:waiter_pda/helpers/show.dart' as show;
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
