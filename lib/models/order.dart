@@ -61,12 +61,15 @@ class Order extends HiveObject {
     for (int i = 0; i < items.length; ++i) {
       final item = items[i];
 
-      for (int j = i + 1; j < items.length; ++j) {
+      int j = i + 1;
+      while (j < items.length) {
         final otherItem = items[j];
 
         if (item.equals(otherItem)) {
           item.quantity += otherItem.quantity;
           items.removeAt(j);
+        } else {
+          ++j;
         }
       }
     }
