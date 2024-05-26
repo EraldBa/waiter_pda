@@ -64,9 +64,9 @@ Future<void> orderInfo(
   BuildContext context,
   Order order,
 ) async {
-  final contentList = [
+  final contentList = <String>[
     'Table:  ${order.tableName}',
-    'Quantity:  ${order.quantityOfItems}',
+    'Items:  ${order.itemCount}',
     'Total:  ${order.totalAsEuro}',
     'Status:  ${order.completed ? 'Completed' : 'Pending'}',
     'Date created:   ${dateFmt.format(order.createdAt)}',

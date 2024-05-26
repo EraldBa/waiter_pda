@@ -1,16 +1,11 @@
-# waiter_pda
+# Waiter PDA
+A simple waiter's pda.
 
-A new Flutter project.
+This project started in mid July of 2023 and finished about a week after starting. Many improvements, additions and bug fixes have been introduced since, and the project got it's own GitHub repo in April of 2024.
 
-## Getting Started
+The need for the project arose when I was working as a waiter at a place where PDAs where not provided, and I was expected to either write the orders down on paper or memorize them. This quickly started to become a pain and greatly deteriorate my work. I needed a PDA-like application where I could track orders, add or remove menu items, be able to view info for the items, have the checks calculated for me etc. So I whipped up this app in a pinch, and it performs the tasks of tracking, handling and viewing orders a lot better than most enterprise level PDA applications I've used in the past. Of course there's always room for improvement, and I get involved with the project whenever I get the chance due to the possibility that I'll need it again at some point in the future.
 
-This project is a starting point for a Flutter application.
+**Flutter version used: 3.19.6**
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Database used: Hive**  
+Hive project link: <https://github.com/isar/hive> 

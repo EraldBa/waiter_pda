@@ -150,7 +150,7 @@ ${item.milkAsString}
 ${item.comments}'''
                         .trim()
                     : 'Quantity: ${item.quantity}\n${item.priceAsEuro}\n${item.comments}'
-                        .trim(),
+                        .trim(), // trimming in case comments is empty string
               ),
               isThreeLine: true,
               trailing: Row(

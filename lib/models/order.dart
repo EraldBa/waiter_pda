@@ -40,14 +40,14 @@ class Order extends HiveObject {
     return sum;
   }
 
-  int get quantityOfItems {
-    int quantity = 0;
+  int get itemCount {
+    int count = 0;
 
     for (final item in items) {
-      quantity += item.quantity;
+      count += item.quantity;
     }
 
-    return quantity;
+    return count;
   }
 
   bool get notCompleted => !completed;
