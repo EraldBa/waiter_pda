@@ -31,7 +31,7 @@ class Order extends HiveObject {
         _updatedAt = updatedAt ?? DateTime.now();
 
   double get total {
-    return items.fold(0, (previousValue, item) => previousValue + item.price);
+    return items.fold(0.0, (previousValue, item) => previousValue + item.price);
   }
 
   int get itemCount {
