@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:waiter_pda/app/widgets/quantity_adjustment_box.dart';
+import 'package:waiter_pda/helpers/show.dart' as show;
 import 'package:waiter_pda/models/menu_item.dart';
 import 'package:waiter_pda/models/order.dart';
 import 'package:waiter_pda/models/order_item.dart';
-import 'package:waiter_pda/helpers/show.dart' as show;
 
 class OrderAddTile extends StatefulWidget {
   final MenuItem menuItem;
@@ -19,17 +19,17 @@ class _OrderAddTileState extends State<OrderAddTile> {
   late OrderItem _orderItem = OrderItem(menuItem: widget.menuItem);
 
   void _addOrder() {
+    setState(() {
+      widget.order.items.add(_orderItem);
+      _orderItem = OrderItem(menuItem: widget.menuItem);
+    });
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Item (${_orderItem.menuItem.name}) has been added'),
         duration: const Duration(seconds: 1),
       ),
     );
-
-    setState(() {
-      widget.order.items.add(_orderItem);
-      _orderItem = OrderItem(menuItem: widget.menuItem);
-    });
   }
 
   void _addOrderWithOptions() {

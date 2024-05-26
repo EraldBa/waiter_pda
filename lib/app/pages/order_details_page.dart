@@ -32,7 +32,7 @@ class OrderDetailsPage extends StatefulWidget {
 class _OrderDetailsPageState extends State<OrderDetailsPage> {
   final _scrollController = ScrollController();
 
-  bool _isVisible = true;
+  bool _isFABVisible = true;
 
   void _removeItem(OrderItem item) {
     show
@@ -54,7 +54,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     });
   }
 
-  bool get _showButton => widget.ordersAreSaved && _isVisible;
+  bool get _showFAB => widget.ordersAreSaved && _isFABVisible;
 
   void _editItem(OrderItem item) {
     show
@@ -90,9 +90,9 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
 
       setState(() {
         if (direction == ScrollDirection.reverse) {
-          _isVisible = false;
+          _isFABVisible = false;
         } else if (direction == ScrollDirection.forward) {
-          _isVisible = true;
+          _isFABVisible = true;
         }
       });
     });
@@ -122,7 +122,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                 ),
               ),
               IconButton(
-                onPressed: () => show.orderInfo(context, widget.order),
+                onPressed: () => show.orderInfoDialog(context, widget.order),
                 icon: const Icon(Icons.info),
               ),
             ],
@@ -174,7 +174,7 @@ ${item.comments}'''
           );
         },
       ),
-      floatingActionButton: _showButton
+      floatingActionButton: _showFAB
           ? AnimatedContainer(
               duration: const Duration(milliseconds: 600),
               child: FloatingActionButton.extended(

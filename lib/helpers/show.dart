@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:waiter_pda/app/widgets/my_alert_dialog.dart';
 import 'package:waiter_pda/app/widgets/order_with_options_dialog.dart';
 import 'package:waiter_pda/models/order.dart';
 import 'package:waiter_pda/models/order_item.dart';
@@ -12,12 +11,25 @@ Future<bool> alertDialog(
   required String title,
   String? message,
 }) async {
-  final confirmation = await showDialog<bool>(
+  final confirmation = await showDialog<bool?>(
     context: context,
     builder: (context) {
-      return MyAlertDialog(
-        title: title,
-        message: message,
+      return AlertDialog(
+        title: Text(
+          title,
+          textAlign: TextAlign.center,
+        ),
+        content: message != null ? Text(message) : null,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Yes'),
+          )
+        ],
       );
     },
   );
@@ -29,7 +41,7 @@ Future<bool> addWithOptionsDialog(
   BuildContext context, {
   required OrderItem orderItem,
 }) async {
-  final confirmation = await showDialog(
+  final confirmation = await showDialog<bool?>(
     context: context,
     builder: (context) {
       return OrderOptionsDialog(orderItem);
@@ -60,7 +72,7 @@ Future<void> warningDialog(BuildContext context, String message) async {
   );
 }
 
-Future<void> orderInfo(
+Future<void> orderInfoDialog(
   BuildContext context,
   Order order,
 ) async {

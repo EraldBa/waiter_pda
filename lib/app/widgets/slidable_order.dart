@@ -98,7 +98,7 @@ class SlidableOrder extends StatelessWidget {
               }
             : null,
         onLongPress: () {
-          show.orderInfo(context, order);
+          show.orderInfoDialog(context, order);
         },
       ),
     );

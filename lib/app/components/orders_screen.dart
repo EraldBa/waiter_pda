@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:waiter_pda/app/pages/new_order_page.dart';
 import 'package:waiter_pda/app/widgets/slidable_order.dart';
-import 'package:waiter_pda/models/order.dart';
 import 'package:waiter_pda/helpers/hive_helper.dart';
+import 'package:waiter_pda/models/order.dart';
 
 class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
@@ -12,13 +12,13 @@ class OrderScreen extends StatefulWidget {
 }
 
 class _OrderScreenState extends State<OrderScreen> {
-  int _sortOrdersAscending(Order a, Order b) {
-    return a.tableName.compareTo(b.tableName);
-  }
-
   @override
   Widget build(BuildContext context) {
-    final orders = HiveHelper.orders..sort(_sortOrdersAscending);
+    // sorting orders in ascending order
+    final orders = HiveHelper.orders
+      ..sort((a, b) {
+        return a.tableName.compareTo(b.tableName);
+      });
 
     final completedOrders = <Order>[];
     final pendingOrders = <Order>[];

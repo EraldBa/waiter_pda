@@ -31,23 +31,14 @@ class Order extends HiveObject {
         _updatedAt = updatedAt ?? DateTime.now();
 
   double get total {
-    double sum = 0;
-
-    for (final item in items) {
-      sum += item.price;
-    }
-
-    return sum;
+    return items.fold(0, (previousValue, item) => previousValue + item.price);
   }
 
   int get itemCount {
-    int count = 0;
-
-    for (final item in items) {
-      count += item.quantity;
-    }
-
-    return count;
+    return items.fold(
+      0,
+      (previousValue, item) => previousValue + item.quantity,
+    );
   }
 
   bool get notCompleted => !completed;

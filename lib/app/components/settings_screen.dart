@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:waiter_pda/app/components/add_menu_item_dialog.dart';
 import 'package:waiter_pda/app/components/remove_menu_item_screen.dart';
-import 'package:waiter_pda/models/order.dart';
+import 'package:waiter_pda/helpers/hive_helper.dart';
 import 'package:waiter_pda/helpers/show.dart' as show;
 
 class SettingsScreen extends StatelessWidget {
@@ -31,13 +30,8 @@ class SettingsScreen extends StatelessWidget {
                 )
                     .then((confirmed) {
                   if (confirmed) {
-                    Hive.box('orders')
-                        .values
-                        .cast<Order>()
-                        .where((order) => order.completed)
-                        .forEach((order) {
-                      order.delete();
-                    });
+                    HiveHelper.orderBox.clear();
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Completed orders cleared'),

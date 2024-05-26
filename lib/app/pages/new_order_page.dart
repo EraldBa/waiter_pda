@@ -4,11 +4,11 @@ import 'package:waiter_pda/app/pages/home_page.dart';
 import 'package:waiter_pda/app/pages/order_details_page.dart';
 import 'package:waiter_pda/app/widgets/order_add_tile.dart';
 import 'package:waiter_pda/extensions/string_extension.dart';
+import 'package:waiter_pda/helpers/hive_helper.dart';
+import 'package:waiter_pda/helpers/show.dart' as show;
 import 'package:waiter_pda/models/item_types.dart';
 import 'package:waiter_pda/models/menu_item.dart';
 import 'package:waiter_pda/models/order.dart';
-import 'package:waiter_pda/helpers/hive_helper.dart';
-import 'package:waiter_pda/helpers/show.dart' as show;
 
 class NewOrderPage extends StatefulWidget {
   static const route = '/user-page';
@@ -37,46 +37,41 @@ class _NewOrderPageState extends State<NewOrderPage> {
 
   final _scrollController = ScrollController();
 
-  final List<MenuItem> _allMenuItems = HiveHelper.menuItems;
-
   final Map<ItemTypes, List<MenuItem>> _itemTypeLists = {};
 
   late List<MenuItem> _filteredMenuItems;
 
   ItemTypes _selectedItemType = ItemTypes.all;
 
-  bool _isVisible = true;
+  bool _isFABVisible = true;
 
-  void _search(String text) {
-    setState(() {
-      if (text.isEmpty) {
-        _filterItemsOnSelectedItem();
-      } else {
-        _filterItems(_itemTypeLists[_selectedItemType]!, text);
-      }
-    });
-  }
-
-  void _filterItems(List<MenuItem> items, String query) {
-    _filteredMenuItems = items.where((menuItem) {
-      return menuItem.name.toLowerCase().containsAll(query.toLowerCase());
-    }).toList();
-  }
-
-  void _filterItemsOnSelectedItem() {
-    _itemTypeLists[_selectedItemType] ??= _allMenuItems
+  void _filterAndSearch() {
+    // if the selected item type does not exist in the map, add the filtered items
+    _itemTypeLists[_selectedItemType] ??= HiveHelper.menuItems
         .where((item) => item.itemType == _selectedItemType)
         .toList();
 
-    _filteredMenuItems = _itemTypeLists[_selectedItemType]!;
+    var items = _itemTypeLists[_selectedItemType]!;
+
+    // performing the search only if text is present in the
+    // search field for efficiency purposes
+    if (_searchController.text.isNotEmpty) {
+      items = items.where((menuItem) {
+        return menuItem.name
+            .toLowerCase()
+            .containsAll(_searchController.text.toLowerCase());
+      }).toList();
+    }
+
+    setState(() {
+      _filteredMenuItems = items;
+    });
   }
 
   void _done() {
     if (widget.order.isInBox) {
       widget.order.save();
     } else {
-      widget.order.mergeItems();
-
       HiveHelper.addOrder(widget.order);
     }
 
@@ -89,15 +84,14 @@ class _NewOrderPageState extends State<NewOrderPage> {
   void _submitTable(String value) {
     if (HiveHelper.tableExistsInPending(value)) {
       show.warningDialog(context, 'Table already exists in Pending!');
-      return;
+    } else {
+      widget.order.tableName = value;
     }
-
-    widget.order.tableName = value;
   }
 
-  set _setIsVisible(bool value) {
+  void _setIsFABVisible(bool value) {
     setState(() {
-      _isVisible = value;
+      _isFABVisible = value;
     });
   }
 
@@ -105,19 +99,17 @@ class _NewOrderPageState extends State<NewOrderPage> {
   void initState() {
     super.initState();
 
-    _itemTypeLists[ItemTypes.all] = _filteredMenuItems = _allMenuItems;
+    _itemTypeLists[ItemTypes.all] = _filteredMenuItems = HiveHelper.menuItems;
 
-    _searchController.addListener(() {
-      _search(_searchController.text);
-    });
+    _searchController.addListener(_filterAndSearch);
 
     _scrollController.addListener(() {
       final direction = _scrollController.position.userScrollDirection;
 
       if (direction == ScrollDirection.reverse) {
-        _setIsVisible = false;
+        _setIsFABVisible(false);
       } else if (direction == ScrollDirection.forward) {
-        _setIsVisible = true;
+        _setIsFABVisible(true);
       }
     });
   }
@@ -135,7 +127,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
-        _setIsVisible = true;
+        _setIsFABVisible(true);
       },
       child: Scaffold(
         appBar: AppBar(
@@ -183,7 +175,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
                     icon: const Icon(Icons.clear),
                   )
                 ],
-                onTap: () => _setIsVisible = false,
+                onTap: () => _setIsFABVisible(false),
               ),
             ),
             SegmentedButton(
@@ -196,10 +188,8 @@ class _NewOrderPageState extends State<NewOrderPage> {
               }).toList(),
               selected: <ItemTypes>{_selectedItemType},
               onSelectionChanged: (p0) {
-                setState(() {
-                  _selectedItemType = p0.first;
-                  _filterItemsOnSelectedItem();
-                });
+                _selectedItemType = p0.first;
+                _filterAndSearch();
               },
             ),
             const SizedBox(height: 15.0),
@@ -220,7 +210,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
             )
           ],
         ),
-        floatingActionButton: _isVisible
+        floatingActionButton: _isFABVisible
             ? AnimatedContainer(
                 duration: const Duration(milliseconds: 600),
                 child: FloatingActionButton.extended(

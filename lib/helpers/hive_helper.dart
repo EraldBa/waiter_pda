@@ -8,9 +8,16 @@ final class HiveHelper {
   static late final Box<MenuItem> menuItemBox;
   static late final Box<Order> orderBox;
 
+  static bool _initComplete = false;
+
   HiveHelper._internal();
 
+  // throws an exception if the method has already been called
   static Future<void> initHive() async {
+    if (_initComplete) {
+      throw Exception('Init has already been called');
+    }
+
     await Hive.initFlutter();
 
     Hive.registerAdapter(OrderAdapter());
@@ -22,6 +29,8 @@ final class HiveHelper {
 
     orderBox = await Hive.openBox('orders');
     menuItemBox = await Hive.openBox('menuItems');
+
+    _initComplete = true;
   }
 
   static List<MenuItem> get menuItems {
@@ -37,6 +46,8 @@ final class HiveHelper {
   }
 
   static Future<void> addOrder(Order order) async {
+    order.mergeItems();
+
     await orderBox.add(order);
   }
 

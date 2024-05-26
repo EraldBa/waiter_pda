@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:waiter_pda/helpers/hive_helper.dart';
 import 'package:waiter_pda/models/item_types.dart';
 import 'package:waiter_pda/models/menu_item.dart';
-import 'package:waiter_pda/helpers/hive_helper.dart';
 
 class AddMenuItemDialog extends StatefulWidget {
   const AddMenuItemDialog({super.key});
@@ -38,7 +38,7 @@ class _AddMenuItemDialogState extends State<AddMenuItemDialog> {
     try {
       _price = double.parse(value);
     } catch (_) {
-      return 'Price provided not valid';
+      return 'Price provided is not valid';
     }
 
     return null;
@@ -126,14 +126,14 @@ class _AddMenuItemDialogState extends State<AddMenuItemDialog> {
         TextButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              final menuItem = MenuItem(
-                name: _name.trim(),
-                price: _price,
-                itemType: _itemType,
-                ingredients: _ingredients,
+              HiveHelper.addMenuItem(
+                MenuItem(
+                  name: _name.trim(),
+                  price: _price,
+                  itemType: _itemType,
+                  ingredients: _ingredients,
+                ),
               );
-
-              HiveHelper.addMenuItem(menuItem);
 
               Navigator.of(context).pop(true);
             }

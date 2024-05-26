@@ -36,10 +36,12 @@ class _RemoveMenuItemScreenState extends State<RemoveMenuItemScreen> {
                 icon: const Icon(Icons.delete),
                 onPressed: () {
                   show
-                      .alertDialog(context,
-                          title: 'Conmfirmation needed',
-                          message:
-                              'Are you sure you want to delete item "${menuItem.name}" from the database?')
+                      .alertDialog(
+                    context,
+                    title: 'Conmfirmation needed',
+                    message:
+                        'Are you sure you want to delete item "${menuItem.name}" from the database?',
+                  )
                       .then((confirmed) {
                     if (confirmed) {
                       setState(() {
