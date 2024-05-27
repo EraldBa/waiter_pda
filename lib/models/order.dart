@@ -48,6 +48,7 @@ class Order extends HiveObject {
   DateTime get createdAt => _createdAt;
   DateTime get updatedAt => _updatedAt;
 
+  /// mergeItems merges duplicate items in [items] property
   void mergeItems() {
     for (int i = 0; i < items.length; ++i) {
       final item = items[i];

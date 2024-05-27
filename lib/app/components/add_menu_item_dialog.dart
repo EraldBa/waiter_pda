@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waiter_pda/helpers/hive_helper.dart';
+import 'package:waiter_pda/helpers/show.dart' as show;
 import 'package:waiter_pda/models/item_types.dart';
 import 'package:waiter_pda/models/menu_item.dart';
 
@@ -126,14 +127,19 @@ class _AddMenuItemDialogState extends State<AddMenuItemDialog> {
         TextButton(
           onPressed: () {
             if (_formKey.currentState!.validate()) {
-              HiveHelper.addMenuItem(
-                MenuItem(
-                  name: _name.trim(),
-                  price: _price,
-                  itemType: _itemType,
-                  ingredients: _ingredients,
-                ),
-              );
+              try {
+                HiveHelper.addMenuItem(
+                  MenuItem(
+                    name: _name.trim(),
+                    price: _price,
+                    itemType: _itemType,
+                    ingredients: _ingredients?.trim(),
+                  ),
+                );
+              } on Exception catch (e) {
+                show.warningDialog(context, e.toString());
+                return;
+              }
 
               Navigator.of(context).pop(true);
             }

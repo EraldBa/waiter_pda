@@ -10,12 +10,20 @@ final class HiveHelper {
 
   static bool _initComplete = false;
 
-  HiveHelper._internal();
+  HiveHelper._();
 
-  // throws an exception if the method has already been called
+  static List<MenuItem> get menuItems {
+    return menuItemBox.values.cast<MenuItem>().toList();
+  }
+
+  static List<Order> get orders {
+    return orderBox.values.cast<Order>().toList();
+  }
+
+  /// throws [Exception] if the method has already been called
   static Future<void> initHive() async {
     if (_initComplete) {
-      throw Exception('Init has already been called');
+      throw Exception('initHive cannot be called more than once');
     }
 
     await Hive.initFlutter();
@@ -33,27 +41,37 @@ final class HiveHelper {
     _initComplete = true;
   }
 
-  static List<MenuItem> get menuItems {
-    return menuItemBox.values.cast<MenuItem>().toList();
-  }
-
-  static List<Order> get orders {
-    return orderBox.values.cast<Order>().toList();
-  }
-
+  /// throws [Exception] if menu item provided already exists
+  /// in the database
   static Future<void> addMenuItem(MenuItem item) async {
+    if (menuItemExists(item)) {
+      throw Exception('Menu item already exists!');
+    }
+
     await menuItemBox.add(item);
   }
 
+  /// throws [Exception] if tableName property already exists
+  /// in some order inside of [orderBox]
   static Future<void> addOrder(Order order) async {
+    if (tableExistsInPending(order.tableName)) {
+      throw Exception('Table already exists in pending!');
+    }
+
     order.mergeItems();
 
     await orderBox.add(order);
   }
 
-  static bool tableExistsInPending(String table) {
+  static bool menuItemExists(MenuItem item) {
+    return menuItemBox.values
+        .cast<MenuItem>()
+        .any((menuItem) => menuItem.equals(item));
+  }
+
+  static bool tableExistsInPending(String tableName) {
     return orderBox.values
         .cast<Order>()
-        .any((order) => order.notCompleted && order.tableName == table);
+        .any((order) => order.notCompleted && order.tableName == tableName);
   }
 }
