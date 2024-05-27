@@ -137,14 +137,14 @@ class _AddMenuItemDialogState extends State<AddMenuItemDialog> {
               ingredients: _ingredients?.trim(),
             );
 
-            if (!HiveHelper.menuItemExists(menuItem)) {
-              HiveHelper.addMenuItem(menuItem);
-              Navigator.of(context).pop(true);
-            } else {
+            if (HiveHelper.menuItemExists(menuItem)) {
               show.warningDialog(
                 context,
                 'Menu item already exists in the database!',
               );
+            } else {
+              HiveHelper.addMenuItem(menuItem);
+              Navigator.of(context).pop(true);
             }
           },
           child: const Text('Add'),

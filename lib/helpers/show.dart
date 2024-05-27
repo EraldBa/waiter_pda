@@ -11,7 +11,7 @@ Future<bool> alertDialog(
   required String title,
   String? message,
 }) async {
-  final confirmation = await showDialog<bool?>(
+  final confirmation = await showDialog<bool>(
     context: context,
     builder: (context) {
       return AlertDialog(
@@ -41,7 +41,7 @@ Future<bool> addWithOptionsDialog(
   BuildContext context, {
   required OrderItem orderItem,
 }) async {
-  final confirmation = await showDialog<bool?>(
+  final confirmation = await showDialog<bool>(
     context: context,
     builder: (context) {
       return OrderOptionsDialog(orderItem);

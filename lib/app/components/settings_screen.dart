@@ -47,7 +47,7 @@ class SettingsScreen extends StatelessWidget {
               leading: const Icon(Icons.add),
               title: const Text('Add new item to menu'),
               onTap: () {
-                showDialog<bool?>(
+                showDialog<bool>(
                   useSafeArea: true,
                   context: context,
                   builder: (context) => const AddMenuItemDialog(),

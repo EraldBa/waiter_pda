@@ -70,9 +70,6 @@ class _NewOrderPageState extends State<NewOrderPage> {
 
   void _submitTable(String tableName) {
     if (HiveHelper.tableExistsInPending(tableName)) {
-      setState(() {
-        widget.order.tableName = '';
-      });
       show.warningDialog(
         context,
         'Table "$tableName" already exists in Pending!',

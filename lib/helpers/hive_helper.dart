@@ -51,7 +51,7 @@ final class HiveHelper {
     await _orderBox.add(order);
   }
 
-  static Future<void> clearPendingOrders() async {
+  static void clearPendingOrders() {
     for (final order in _orderBox.values) {
       if (order.completed) {
         order.delete();
