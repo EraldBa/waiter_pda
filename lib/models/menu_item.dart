@@ -2,7 +2,7 @@
 
 import 'package:hive/hive.dart';
 import 'package:waiter_pda/models/item_types.dart';
-import 'package:waiter_pda/models/price_helper.dart' as price_helper;
+import 'package:waiter_pda/helpers/price_helper.dart' as price_helper;
 
 part 'menu_item.g.dart';
 

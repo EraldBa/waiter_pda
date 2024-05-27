@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:waiter_pda/models/order_item.dart';
-import 'package:waiter_pda/models/price_helper.dart' as price_helper;
+import 'package:waiter_pda/helpers/price_helper.dart' as price_helper;
 
 part 'order.g.dart';
 
