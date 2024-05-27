@@ -68,20 +68,25 @@ class _NewOrderPageState extends State<NewOrderPage> {
     });
   }
 
+  void _submitTable(String tableName) {
+    if (HiveHelper.tableExistsInPending(tableName)) {
+      setState(() {
+        widget.order.tableName = '';
+      });
+      show.warningDialog(
+        context,
+        'Table "$tableName" already exists in Pending!',
+      );
+    } else {
+      widget.order.tableName = tableName;
+    }
+  }
+
   void _done() {
     if (widget.order.isInBox) {
-      if (HiveHelper.tableExistsInPending(widget.order.tableName)) {
-        show.warningDialog(context, 'Table already exists in pedning orders!');
-      } else {
-        widget.order.save();
-      }
+      widget.order.save();
     } else {
-      try {
-        HiveHelper.addOrder(widget.order);
-      } on Exception catch (e) {
-        show.warningDialog(context, e.toString());
-        return;
-      }
+      HiveHelper.addOrder(widget.order);
     }
 
     Navigator.of(context).pushNamedAndRemoveUntil(
@@ -155,9 +160,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
               padding: const EdgeInsets.only(left: 20.0),
               child: TextFormField(
                 initialValue: widget.order.tableName,
-                onFieldSubmitted: (tableName) {
-                  widget.order.tableName = tableName;
-                },
+                onFieldSubmitted: _submitTable,
                 textAlign: TextAlign.center,
                 decoration: const InputDecoration(
                   hintText: 'Table',

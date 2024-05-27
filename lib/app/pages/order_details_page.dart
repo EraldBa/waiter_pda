@@ -71,14 +71,16 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
     });
   }
 
-  void _submitTable(String value) {
-    if (HiveHelper.tableExistsInPending(value)) {
-      show.warningDialog(context, 'Table already exists in Pending!');
-      return;
+  void _submitTable(String tableName) {
+    if (HiveHelper.tableExistsInPending(tableName)) {
+      show.warningDialog(
+        context,
+        'Table $tableName already exists in Pending!',
+      );
+    } else {
+      widget.order.tableName = tableName;
+      widget.order.save();
     }
-
-    widget.order.tableName = value;
-    widget.order.save();
   }
 
   @override

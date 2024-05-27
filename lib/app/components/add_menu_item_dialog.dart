@@ -126,22 +126,25 @@ class _AddMenuItemDialogState extends State<AddMenuItemDialog> {
       actions: [
         TextButton(
           onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              try {
-                HiveHelper.addMenuItem(
-                  MenuItem(
-                    name: _name.trim(),
-                    price: _price,
-                    itemType: _itemType,
-                    ingredients: _ingredients?.trim(),
-                  ),
-                );
-              } on Exception catch (e) {
-                show.warningDialog(context, e.toString());
-                return;
-              }
+            if (!_formKey.currentState!.validate()) {
+              return;
+            }
 
+            final menuItem = MenuItem(
+              name: _name.trim(),
+              price: _price,
+              itemType: _itemType,
+              ingredients: _ingredients?.trim(),
+            );
+
+            if (!HiveHelper.menuItemExists(menuItem)) {
+              HiveHelper.addMenuItem(menuItem);
               Navigator.of(context).pop(true);
+            } else {
+              show.warningDialog(
+                context,
+                'Menu item already exists in the database!',
+              );
             }
           },
           child: const Text('Add'),

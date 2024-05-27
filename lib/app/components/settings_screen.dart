@@ -30,7 +30,7 @@ class SettingsScreen extends StatelessWidget {
                 )
                     .then((confirmed) {
                   if (confirmed) {
-                    HiveHelper.orderBox.clear();
+                    HiveHelper.clearPendingOrders();
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
