@@ -4,30 +4,26 @@ import 'package:waiter_pda/helpers/show.dart' as show;
 import 'package:waiter_pda/models/item_types.dart';
 import 'package:waiter_pda/models/menu_item.dart';
 
-class AddMenuItemDialog extends StatefulWidget {
-  const AddMenuItemDialog({super.key});
+class MenuItemDialog extends StatefulWidget {
+  const MenuItemDialog({super.key, this.menuItem});
+
+  final MenuItem? menuItem;
 
   @override
-  State<AddMenuItemDialog> createState() => _AddMenuItemDialogState();
+  State<MenuItemDialog> createState() => _MenuItemDialogState();
 }
 
-class _AddMenuItemDialogState extends State<AddMenuItemDialog> {
+class _MenuItemDialogState extends State<MenuItemDialog> {
   final _formKey = GlobalKey<FormState>();
 
-  ItemTypes _itemType = ItemTypes.all;
-
-  String _name = '';
-
-  String? _ingredients;
-
-  double _price = 0.0;
+  late final MenuItem menuItem;
 
   String? _nameValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Name cannot be empty';
     }
 
-    _name = value;
+    menuItem.name = value;
 
     return null;
   }
@@ -37,12 +33,19 @@ class _AddMenuItemDialogState extends State<AddMenuItemDialog> {
       return 'Price cannot be empty';
     }
     try {
-      _price = double.parse(value);
+      menuItem.price = double.parse(value);
     } catch (_) {
       return 'Price provided is not valid';
     }
 
     return null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    menuItem = widget.menuItem ?? MenuItem.empty();
   }
 
   @override
@@ -55,15 +58,17 @@ class _AddMenuItemDialogState extends State<AddMenuItemDialog> {
           child: Column(
             children: [
               TextFormField(
+                initialValue: menuItem.name,
                 validator: _nameValidator,
                 decoration: const InputDecoration(
                   labelText: 'Name*',
                 ),
               ),
               TextFormField(
+                initialValue: menuItem.ingredients,
                 decoration: const InputDecoration(labelText: 'Ingredients'),
                 onChanged: (value) {
-                  _ingredients = value;
+                  menuItem.ingredients = value;
                 },
               ),
               const SizedBox(height: 20.0),
@@ -72,6 +77,7 @@ class _AddMenuItemDialogState extends State<AddMenuItemDialog> {
                   Expanded(
                     flex: 1,
                     child: TextFormField(
+                      initialValue: menuItem.price.toString(),
                       keyboardType: TextInputType.number,
                       validator: _priceValidator,
                       decoration: const InputDecoration(
@@ -95,7 +101,7 @@ class _AddMenuItemDialogState extends State<AddMenuItemDialog> {
                             return ItemTypes.values.map((value) {
                               return CheckedPopupMenuItem(
                                 value: value,
-                                checked: _itemType == value,
+                                checked: menuItem.itemType == value,
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -109,10 +115,10 @@ class _AddMenuItemDialogState extends State<AddMenuItemDialog> {
                           },
                           onSelected: (value) {
                             setState(() {
-                              _itemType = value;
+                              menuItem.itemType = value;
                             });
                           },
-                          child: Icon(_itemType.icon),
+                          child: Icon(menuItem.itemType.icon),
                         ),
                       ],
                     ),
@@ -130,24 +136,23 @@ class _AddMenuItemDialogState extends State<AddMenuItemDialog> {
               return;
             }
 
-            final menuItem = MenuItem(
-              name: _name.trim(),
-              price: _price,
-              itemType: _itemType,
-              ingredients: _ingredients?.trim(),
-            );
-
-            if (HiveHelper.menuItemExists(menuItem)) {
+            if (widget.menuItem == null &&
+                HiveHelper.menuItemExists(menuItem)) {
               show.warningDialog(
                 context,
                 'Menu item already exists in the database!',
               );
             } else {
-              HiveHelper.addMenuItem(menuItem);
+              if (menuItem.isInBox) {
+                menuItem.save();
+              } else {
+                HiveHelper.addMenuItem(menuItem);
+              }
+
               Navigator.of(context).pop(true);
             }
           },
-          child: const Text('Add'),
+          child: const Text('Save'),
         ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),

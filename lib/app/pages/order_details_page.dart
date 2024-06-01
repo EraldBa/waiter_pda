@@ -146,12 +146,12 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                 item.isCoffee
                     ? '''
 Quantity: ${item.quantity}
-${item.priceAsEuro}
-${item.sweetnessAsString}
-${item.milkAsString}
+${item.priceFmt}
+${item.sweetnessFmt}
+${item.milkFmt}
 ${item.comments}'''
                         .trim()
-                    : 'Quantity: ${item.quantity}\n${item.priceAsEuro}\n${item.comments}'
+                    : 'Quantity: ${item.quantity}\n${item.priceFmt}\n${item.comments}'
                         .trim(), // trimming in case comments is empty string
               ),
               isThreeLine: true,

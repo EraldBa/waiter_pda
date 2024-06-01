@@ -80,7 +80,7 @@ Future<void> orderInfoDialog(
     'Table:  ${order.tableName}',
     'Items:  ${order.itemCount}',
     'Total:  ${order.totalAsEuro}',
-    'Status:  ${order.completed ? 'Completed' : 'Pending'}',
+    'Status:  ${!order.isInBox ? 'Not saved' : order.completed ? 'Completed' : 'Pending'}',
     'Date created:   ${dateFmt.format(order.createdAt)}',
     'Date modified:  ${dateFmt.format(order.updatedAt)}',
   ];

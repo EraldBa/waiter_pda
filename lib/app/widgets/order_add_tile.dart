@@ -59,9 +59,9 @@ class _OrderAddTileState extends State<OrderAddTile> {
         ),
         title: Text(widget.menuItem.name),
         subtitle: Text(
-          '${widget.menuItem.priceAsEuro}${widget.menuItem.ingredients}',
+          '${widget.menuItem.priceFmt}${widget.menuItem.ingredientsFmt}',
         ),
-        isThreeLine: widget.menuItem.ingredients.isNotEmpty,
+        isThreeLine: widget.menuItem.ingredients != null,
       ),
     );
   }

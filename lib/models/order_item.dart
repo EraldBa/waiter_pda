@@ -34,11 +34,11 @@ class OrderItem extends HiveObject {
 
   double get price => menuItem.price * quantity;
 
-  String get priceAsEuro => 'Price: ${price_helper.toEuroFormat(price)}';
+  String get priceFmt => 'Price: ${price_helper.toEuroFormat(price)}';
 
-  String get milkAsString => 'Milk: ${milk?.name ?? '-'}';
+  String get milkFmt => 'Milk: ${milk?.name ?? '-'}';
 
-  String get sweetnessAsString => 'Sweetness: ${sweetness?.name ?? '-'}';
+  String get sweetnessFmt => 'Sweetness: ${sweetness?.name ?? '-'}';
 
   bool get isCoffee => menuItem.itemType == ItemTypes.coffee;
 

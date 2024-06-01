@@ -19,6 +19,7 @@ class _OrderOptionsDialogState extends State<OrderOptionsDialog> {
   @override
   void initState() {
     super.initState();
+
     _orderItem = OrderItem(menuItem: widget.orderItem.menuItem)
       ..setValuesFrom(widget.orderItem);
   }
@@ -69,7 +70,7 @@ class _OrderOptionsDialogState extends State<OrderOptionsDialog> {
             });
           },
           child: Text(
-            _orderItem.milkAsString,
+            _orderItem.milkFmt,
             textAlign: TextAlign.center,
             style: const TextStyle(color: Colors.blue),
           ),

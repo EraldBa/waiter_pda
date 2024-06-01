@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:waiter_pda/app/components/add_menu_item_dialog.dart';
-import 'package:waiter_pda/app/components/remove_menu_item_screen.dart';
+import 'package:waiter_pda/app/components/edit_menu_items_screen.dart';
+import 'package:waiter_pda/app/components/menu_item_dialog.dart';
 import 'package:waiter_pda/helpers/hive_helper.dart';
 import 'package:waiter_pda/helpers/show.dart' as show;
 
@@ -50,7 +50,7 @@ class SettingsScreen extends StatelessWidget {
                 showDialog<bool>(
                   useSafeArea: true,
                   context: context,
-                  builder: (context) => const AddMenuItemDialog(),
+                  builder: (_) => const MenuItemDialog(),
                 ).then((itemWasAdded) {
                   if (itemWasAdded == true) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -65,14 +65,14 @@ class SettingsScreen extends StatelessWidget {
           ),
           Card(
             child: ListTile(
-              leading: const Icon(Icons.remove),
-              title: const Text('Remove menu item'),
+              leading: const Icon(Icons.edit_document),
+              title: const Text('Edit menu items'),
               onTap: () {
                 showModalBottomSheet(
                   isScrollControlled: true,
                   context: context,
                   useSafeArea: true,
-                  builder: (context) => const RemoveMenuItemScreen(),
+                  builder: (_) => const EditMenuItemsScreen(),
                 );
               },
             ),
