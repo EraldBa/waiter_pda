@@ -6,7 +6,7 @@ part 'item_types.g.dart';
 @HiveType(typeId: 6)
 enum ItemTypes {
   @HiveField(0)
-  all('All', Icons.circle),
+  any('Any', Icons.circle),
 
   @HiveField(1)
   coffee('Coffee', Icons.coffee),

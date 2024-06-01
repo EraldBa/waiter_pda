@@ -14,7 +14,7 @@ class ItemTypesAdapter extends TypeAdapter<ItemTypes> {
   ItemTypes read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return ItemTypes.all;
+        return ItemTypes.any;
       case 1:
         return ItemTypes.coffee;
       case 2:
@@ -22,14 +22,14 @@ class ItemTypesAdapter extends TypeAdapter<ItemTypes> {
       case 3:
         return ItemTypes.food;
       default:
-        return ItemTypes.all;
+        return ItemTypes.any;
     }
   }
 
   @override
   void write(BinaryWriter writer, ItemTypes obj) {
     switch (obj) {
-      case ItemTypes.all:
+      case ItemTypes.any:
         writer.writeByte(0);
         break;
       case ItemTypes.coffee:

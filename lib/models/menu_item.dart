@@ -30,7 +30,7 @@ final class MenuItem extends HiveObject {
   MenuItem.empty()
       : name = '',
         price = 0.0,
-        itemType = ItemTypes.all;
+        itemType = ItemTypes.any;
 
   String get ingredientsFmt =>
       ingredients == null ? '' : '\nIngredients: ${ingredients!}';

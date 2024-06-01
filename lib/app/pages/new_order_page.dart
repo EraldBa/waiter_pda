@@ -41,7 +41,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
 
   late List<MenuItem> _filteredMenuItems;
 
-  ItemTypes _selectedItemType = ItemTypes.all;
+  ItemTypes _selectedItemType = ItemTypes.any;
 
   bool _isFABVisible = true;
 
@@ -102,7 +102,7 @@ class _NewOrderPageState extends State<NewOrderPage> {
   void initState() {
     super.initState();
 
-    _itemTypeLists[ItemTypes.all] = _filteredMenuItems = HiveHelper.menuItems;
+    _itemTypeLists[ItemTypes.any] = _filteredMenuItems = HiveHelper.menuItems;
 
     _searchController.addListener(_filterAndSearch);
 
